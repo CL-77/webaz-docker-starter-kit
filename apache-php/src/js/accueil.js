@@ -1,6 +1,6 @@
 L.map('map', {
-    center: [48.85, 2.35],
-    zoom: 13,
+    center: [43.9625, 5.7740],
+    zoom: 15,
     layers: [
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,

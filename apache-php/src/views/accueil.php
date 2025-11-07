@@ -12,8 +12,6 @@
 
 </head>
 <body>
-    <p>Hello World</p>
-    <p>Test</p>
     <div id="map"></div>
 
 <!-- Leaflet -->
