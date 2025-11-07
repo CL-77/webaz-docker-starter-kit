@@ -14,6 +14,8 @@
 <body>
     <div id="map"></div>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <!-- Leaflet -->
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
