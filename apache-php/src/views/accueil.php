@@ -12,6 +12,7 @@
 
 </head>
 <body>
+    <div id="application"></div>
     <div id="map"></div>
 
 
