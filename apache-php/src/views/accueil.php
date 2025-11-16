@@ -12,7 +12,11 @@
 
 </head>
 <body>
-    <div id="application"></div>
+    <div id="application">
+        <ul>
+            <li><img v-for="objet in inventaire" :src=objet.src :alt=objet.alt></img></li>
+        </ul>
+    </div>
     <div id="map"></div>
 
 

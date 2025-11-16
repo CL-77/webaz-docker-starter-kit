@@ -1,3 +1,16 @@
+#application{
+    height:10vh;
+}
+
 #map {
-    height: 100vh;
+    height: 90vh;
+}
+
+li{
+    display:inline;
+}
+
+img{
+    height:70vh;
+    width:10vw;
 }

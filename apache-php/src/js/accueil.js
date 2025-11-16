@@ -28,7 +28,8 @@ let vue = Vue.createApp({
  mounted(){
     let app=this
 function supression(){
-    app.inventaire.push(event.target.alt)
+  console.log(event.target)
+    app.inventaire.push({alt:event.target.alt,src:event.target.src})
     event.target.remove()
     console.log(app.inventaire)
   }
