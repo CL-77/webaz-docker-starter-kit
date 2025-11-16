@@ -19,8 +19,6 @@ Flight::route('/objets', function () {
     // Connexion BDD
     $link = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
 
-    $sql = "SELECT o.*, i.url, i.taille_x, i.taille_y FROM objet o JOIN icone i ON o.id_icone = i.id";
-
     if ( ! isset($_GET['id']) ) {
         $sql = "SELECT o.*, i.url, i.taille_x, i.taille_y FROM objet o JOIN icone i ON o.id_icone = i.id";
         $query = pg_query($link, $sql);
@@ -29,6 +27,7 @@ Flight::route('/objets', function () {
         $sql = "SELECT o.*, i.url, i.taille_x, i.taille_y FROM objet o JOIN icone i ON o.id_icone = i.id WHERE o.id = $1";
         $query = pg_query_params($link, $sql, [ $id_objet ]); // protection contre injection SQL
     }
+    
     $results = pg_fetch_all($query);
     Flight::json($results);
 });
