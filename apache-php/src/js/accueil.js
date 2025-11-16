@@ -45,8 +45,19 @@ function supression(){
     //shadowSize: [68, 95],
     //shadowAnchor: [22, 94]
    });
+   let icontest2 = L.icon({
+    iconUrl: 'img/cle.png',
+    iconSize: [38, 95],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    //shadowUrl: 'my-icon-shadow.png',
+    //shadowSize: [68, 95],
+    //shadowAnchor: [22, 94]
+   });
    let test1 = L.marker([43.9625, 5.7740],{icon: icontest1,alt:'test1'});
+   let test2 = L.marker([43.9625, 5.6740],{icon: icontest2,alt:'test2'});
    test1.addTo(map).on('click',function(){ supression()});
+   test2.addTo(map).on('click',function(){ supression()});
    console.log(map)
 
  },
