@@ -9,10 +9,22 @@ let map = L.map('map', {
     ],
 })
 
+
+let heatmap = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
+    layers: 'heatmap:objet',
+    format: 'image/png',
+    transparent: true,
+    tiled: true,
+    crs: L.CRS.EPSG4326
+});
+map.addLayer(heatmap);
+
+
 let vue = Vue.createApp({
   data() {
     return{
       inventaire:[],
+      cheat_mode: false,
     }
     
   },
@@ -26,13 +38,13 @@ let vue = Vue.createApp({
    
   },
  mounted(){
-    let app=this
+    let app=this;
 function supression(){
   console.log(event.target)
     app.inventaire.push({alt:event.target.alt,src:event.target.src})
     event.target.remove()
     console.log(app.inventaire)
-  }
+  };
 
   console.log('Initialisation');
   console.log(app.inventaire)
@@ -59,6 +71,8 @@ function supression(){
    test1.addTo(map).on('click',function(){ supression()});
    test2.addTo(map).on('click',function(){ supression()});
    console.log(map)
+
+
 
  },
 });

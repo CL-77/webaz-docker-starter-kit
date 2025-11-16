@@ -13,12 +13,17 @@
 </head>
 <body>
     <div id="application">
-        <ul>
-            <li><img v-for="objet in inventaire" :src=objet.src :alt=objet.alt></img></li>
-        </ul>
+        <div id=cheat>
+            <input type="checkbox" v-model="cheat_mode">
+            <p>Cheat mode</p>
+        </div>
+        <div id=inventaire>
+            <ul>
+                <li><img v-for="objet in inventaire" :src=objet.src :alt=objet.alt></img></li>
+            </ul>
+        </div>
     </div>
     <div id="map"></div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <!-- Leaflet -->

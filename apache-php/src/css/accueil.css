@@ -1,5 +1,17 @@
-#application{
+#application {
+    display: flex;
     height:10vh;
+}
+
+#cheat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+}
+
+#cheat p {
+    padding-left: 10px;
 }
 
 #map {
