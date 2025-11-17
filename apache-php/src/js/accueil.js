@@ -23,8 +23,8 @@ map.addLayer(heatmap);
 let vue = Vue.createApp({
   data() {
     return{
-      inventaire:[],
-      cheat_mode: false,
+      inventaire: [],
+      cheat_mode: false
     }
     
   },
@@ -39,15 +39,16 @@ let vue = Vue.createApp({
   },
  mounted(){
     let app=this;
-function supression(){
-  console.log(event.target)
-    app.inventaire.push({alt:event.target.alt,src:event.target.src})
-    event.target.remove()
-    console.log(app.inventaire)
-  };
-
-  console.log('Initialisation');
-  console.log(app.inventaire)
+    function supression(){
+        console.log(event.target)
+        app.inventaire.push({alt:event.target.alt,src:event.target.src})
+        event.target.remove()
+        console.log(app.inventaire)
+    };
+ 
+   /* 
+   console.log('Initialisation');
+   console.log(app.inventaire);
    let icontest1 = L.icon({
     iconUrl: 'img/camera.png',
     iconSize: [38, 95],
@@ -71,10 +72,19 @@ function supression(){
    test1.addTo(map).on('click',function(){ supression()});
    test2.addTo(map).on('click',function(){ supression()});
    console.log(map)
+   */
 
+   fetch('/objets')
+   .then(reponseHTTP => reponseHTTP.json())
+   .then(tabJSON => {
+      tabJSON.forEach(function(obj){
+         if (obj.depart == 't') {
+            let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {supression()} );
+         }
+      });
+   });
 
-
- },
+ }
 });
 
 vue.mount('#application');
