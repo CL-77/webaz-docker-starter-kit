@@ -82,3 +82,9 @@ docker compose exec -t db pg_dump --inserts -U postgres -d mydb > "./db/backup.s
 
 - un dossier `./geoserver-workspaces` est créé pour les données des workspaces GeoServer
 - un fichier `./db/backup.sql` est créé pour un dump de la BDD
+
+# Pour importer la carte de chaleur
+
+Faire docker compose cp  ./geoserver-workspaces/. geoserver:/opt/geoserver/data_dir/workspaces/ dans l'arborescence du projet
+
+Puis aller dans le geoserver, état du service puis clicker sur recherger dans configuration et catalogue en bas
