@@ -14,8 +14,14 @@
 <body>
     <div id="application">
         <div id=cheat>
-            <input type="checkbox" v-model="cheat_mode">
-            <p>Cheat mode</p>
+            <form action="" @submit.prevent="switch_heatmap">
+                <div v-if="cheat_mode">
+                    <button>Désactiver cheat mode</button>
+                </div>
+                <div v-else>
+                    <button>Activer cheat mode</button>
+                </div>
+            </form>
         </div>
         <div id=inventaire>
             <ul>

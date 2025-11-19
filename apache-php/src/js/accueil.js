@@ -17,7 +17,6 @@ let heatmap = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
     tiled: true,
     crs: L.CRS.EPSG4326
 });
-map.addLayer(heatmap);
 
 
 let vue = Vue.createApp({
@@ -29,10 +28,18 @@ let vue = Vue.createApp({
     
   },
   computed: {
-
+     
   },
   methods:{
-
+    switch_heatmap() {
+      if (this.cheat_mode) {
+        map.removeLayer(heatmap);
+        this.cheat_mode = false;
+      } else {
+        map.addLayer(heatmap);
+        this.cheat_mode = true;
+      }
+    }
   },
   beforeMount() {
    
