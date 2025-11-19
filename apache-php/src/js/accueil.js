@@ -32,6 +32,7 @@ let vue = Vue.createApp({
   },
   methods:{
     switch_heatmap() {
+      console.log('test');
       if (this.cheat_mode) {
         map.removeLayer(heatmap);
         this.cheat_mode = false;
@@ -46,12 +47,33 @@ let vue = Vue.createApp({
   },
  mounted(){
     let app=this;
-    function supression(){
-        console.log(event.target)
-        app.inventaire.push({alt:event.target.alt,src:event.target.src})
-        event.target.remove()
-        console.log(app.inventaire)
+    function suppression(){
+        console.log(event.target);
+        console.log({alt:event.target.alt,src:event.target.src});
+        app.inventaire.push({alt:event.target.alt,src:event.target.src});
+        event.target.remove();
+        console.log(app.inventaire);
     };
+
+    function action_carte(code) {
+      alert("Mot de passe de l'ordinateur : " + code);
+      event.target.remove();
+    };
+
+    function action_pc() {
+      let mdp = prompt("Veuillez saisir le mot de passe :");
+      if (mdp == '2425') { // à mettre à jour en important depuis la BDD
+        alert("Mot de passe correct.");
+        event.target.remove();
+        // let cle = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {suppression()} );
+      } else {
+        alert("Mot de passe incorrect.");
+      }
+    };
+
+    function action_porte(indice) {
+      alert(indice);
+    }
  
    /* 
    console.log('Initialisation');
@@ -76,8 +98,8 @@ let vue = Vue.createApp({
    });
    let test1 = L.marker([43.9625, 5.7740],{icon: icontest1,alt:'test1'});
    let test2 = L.marker([43.9625, 5.6740],{icon: icontest2,alt:'test2'});
-   test1.addTo(map).on('click',function(){ supression()});
-   test2.addTo(map).on('click',function(){ supression()});
+   test1.addTo(map).on('click',function(){ suppression()});
+   test2.addTo(map).on('click',function(){ suppression()});
    console.log(map)
    */
 
@@ -86,8 +108,16 @@ let vue = Vue.createApp({
    .then(tabJSON => {
       tabJSON.forEach(function(obj){
          if (obj.depart == 't') {
-            let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {supression()} );
-         }
+            if (obj.nom == "carte") {
+              let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_carte(obj.code)} );
+            } else if (obj.nom == "pc") {
+              let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_pc()} );
+            } else if (obj.nom == "porte") {
+              let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_porte(obj.indice)} );
+            } else {
+              let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {suppression()} );
+            }
+          }
       });
    });
 
