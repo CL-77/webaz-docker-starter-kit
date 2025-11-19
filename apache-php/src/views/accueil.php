@@ -25,7 +25,7 @@
         </div>
         <div id=inventaire>
             <ul>
-                <li><img v-for="objet in inventaire" :src=objet.src :alt=objet.alt></img></li>
+                <li><div @click="func_selection()"><img  v-for="objet in inventaire" :src=objet.src :alt=objet.alt></img></div></li>
             </ul>
         </div>
     </div>

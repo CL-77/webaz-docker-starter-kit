@@ -23,7 +23,8 @@ let vue = Vue.createApp({
   data() {
     return{
       inventaire: [],
-      cheat_mode: false
+      cheat_mode: false,
+      selection: "",
     }
     
   },
@@ -39,7 +40,11 @@ let vue = Vue.createApp({
         map.addLayer(heatmap);
         this.cheat_mode = true;
       }
-    }
+    },
+
+    func_selection() {
+      console.log("Selection en cours");
+    },
   },
   beforeMount() {
    
