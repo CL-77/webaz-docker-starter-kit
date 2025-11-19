@@ -32,7 +32,6 @@ let vue = Vue.createApp({
   },
   methods:{
     switch_heatmap() {
-      console.log('test');
       if (this.cheat_mode) {
         map.removeLayer(heatmap);
         this.cheat_mode = false;
@@ -113,7 +112,7 @@ let vue = Vue.createApp({
             } else if (obj.nom == "pc") {
               let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_pc()} );
             } else if (obj.nom == "porte") {
-              let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_porte(obj.indice)} );
+              let porte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_porte(obj.indice)} );
             } else {
               let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {suppression()} );
             }
