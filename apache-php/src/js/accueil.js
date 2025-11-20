@@ -51,6 +51,37 @@ let vue = Vue.createApp({
   },
  mounted(){
     let app=this;
+
+  function get_objets(param) {
+    if (param == 'start') {
+      fetch('/objets')
+    .then(reponseHTTP => reponseHTTP.json())
+    .then(tabJSON => {
+        tabJSON.forEach(function(obj){
+          if (obj.depart == 't') {
+              if (obj.nom == "carte") {
+                let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_carte(obj.code)} );
+              } else if (obj.nom == "pc") {
+                let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_pc()} );
+              } else if (obj.nom == "porte") {
+                let porte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_porte(obj.indice)} );
+              } else {
+                let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {suppression()} );
+              }
+            }
+        })
+      });
+    } else {
+      fetch('/objets?id=' + param)
+    .then(reponseHTTP => reponseHTTP.json())
+    .then(tabJSON => {
+        tabJSON.forEach(function(obj){
+          let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {suppression()} );
+        });
+      })
+    }
+  };
+
     function suppression(){
         console.log(event.target);
         console.log({alt:event.target.alt,src:event.target.src});
@@ -69,7 +100,6 @@ let vue = Vue.createApp({
       if (mdp == '2425') { // à mettre à jour en important depuis la BDD
         alert("Mot de passe correct.");
         event.target.remove();
-        // let cle = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {suppression()} );
       } else {
         alert("Mot de passe incorrect.");
       }
@@ -107,23 +137,7 @@ let vue = Vue.createApp({
    console.log(map)
    */
 
-   fetch('/objets')
-   .then(reponseHTTP => reponseHTTP.json())
-   .then(tabJSON => {
-      tabJSON.forEach(function(obj){
-         if (obj.depart == 't') {
-            if (obj.nom == "carte") {
-              let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_carte(obj.code)} );
-            } else if (obj.nom == "pc") {
-              let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_pc()} );
-            } else if (obj.nom == "porte") {
-              let porte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_porte(obj.indice)} );
-            } else {
-              let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {suppression()} );
-            }
-          }
-      });
-   });
+   get_objets('start');
 
  }
 });
