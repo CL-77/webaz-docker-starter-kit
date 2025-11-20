@@ -42,8 +42,9 @@ let vue = Vue.createApp({
       }
     },
 
-    func_selection() {
+    func_selection(objet) {
       console.log("Selection en cours");
+      console.log(objet)
     },
   },
   beforeMount() {
@@ -60,13 +61,13 @@ let vue = Vue.createApp({
         tabJSON.forEach(function(obj){
           if (obj.depart == 't') {
               if (obj.nom == "carte") {
-                let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_carte(obj.code)} );
+                let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) ,alt:obj.nom}).addTo(map).on('click', function() {action_carte(obj.code)} );
               } else if (obj.nom == "pc") {
-                let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_pc()} );
+                let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {action_pc()} );
               } else if (obj.nom == "porte") {
-                let porte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {action_porte(obj.indice)} );
+                let porte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {action_porte(obj.indice)} );
               } else {
-                let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {suppression()} );
+                let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {suppression()} );
               }
             }
         })
@@ -76,7 +77,7 @@ let vue = Vue.createApp({
     .then(reponseHTTP => reponseHTTP.json())
     .then(tabJSON => {
         tabJSON.forEach(function(obj){
-          let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) }).addTo(map).on('click', function() {suppression()} );
+          let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {suppression()} );
         });
       })
     }
