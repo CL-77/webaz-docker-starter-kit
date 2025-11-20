@@ -109,7 +109,8 @@ let vue = Vue.createApp({
     };
 
     function action_porte(indice) {
-      alert(indice);
+      if(app.selection=="cle"){suppression()}
+      else{alert(indice)};
     }
  
    /* 
