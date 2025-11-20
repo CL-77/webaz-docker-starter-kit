@@ -100,6 +100,7 @@ let vue = Vue.createApp({
       if (mdp == '2425') { // à mettre à jour en important depuis la BDD
         alert("Mot de passe correct.");
         event.target.remove();
+        get_objets('9');
       } else {
         alert("Mot de passe incorrect.");
       }
