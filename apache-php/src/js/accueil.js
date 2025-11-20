@@ -44,7 +44,8 @@ let vue = Vue.createApp({
 
     func_selection(objet) {
       console.log("Selection en cours");
-      console.log(objet)
+      console.log(objet);
+      this.selection=objet;
     },
   },
   beforeMount() {

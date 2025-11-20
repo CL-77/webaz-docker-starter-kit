@@ -26,3 +26,11 @@ img{
     height:50px;
     width:50px;
 }
+
+.selectionnee{
+    background-color: yellow;
+}
+
+.non_selectionnee{
+    background-color : grey;
+}
