@@ -18,10 +18,10 @@
     height: 90vh;
 }
 
-li{
-    display:inline;
+ul{
+    display:inline-flex;
+    list-style-type: none;
 }
-
 img{
     height:50px;
     width:50px;
