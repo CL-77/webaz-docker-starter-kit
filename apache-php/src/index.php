@@ -33,6 +33,31 @@ Flight::route('/objets', function () {
 });
 
 
+Flight::route('/scores', function () {
+    $host = 'db';
+    $port = 5432;
+    $dbname = 'mydb';
+    $user = 'postgres';
+    $pass = 'postgres';
+
+    // Connexion BDD
+    $link = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
+
+    if ( ! isset($_GET['insert']) ) {
+        // Affichage des 10 meilleurs scores
+        $sql = "SELECT * FROM score WHERE classement <= 10";
+        $query = pg_query($link, $sql);
+    } else {
+        // Injection par la route /scores?insert=INSERT INTO...
+        $insert = $_GET['insert'];
+        $query = pg_query($link, "$insert");
+    }
+ 
+    $results = pg_fetch_all($query);
+    Flight::json($results);
+});
+
+
 Flight::route('/test-db', function () {
     $host = 'db';
     $port = 5432;
