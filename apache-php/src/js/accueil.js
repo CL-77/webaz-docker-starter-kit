@@ -46,6 +46,9 @@ let vue = Vue.createApp({
       console.log("Selection en cours");
       console.log(objet);
       this.selection=objet;
+      if (objet.substr(0,5)=="carte"){
+        alert("Mot de passe de l'ordinateur : " + objet.substr(5));
+      }
     },
   },
   beforeMount() {
@@ -62,7 +65,7 @@ let vue = Vue.createApp({
         tabJSON.forEach(function(obj){
           if (obj.depart == 't') {
               if (obj.nom == "carte") {
-                let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) ,alt:obj.nom}).addTo(map).on('click', function() {action_carte(obj.code_revele)} );
+                let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) ,alt:obj.nom+obj.code_revele}).addTo(map).on('click', function() {action_carte(obj.code_revele)} );
               } else if (obj.nom == "pc") {
                 let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {action_pc(obj.code_bloquant, obj.id_bloque)} );
               } else if (obj.nom == "porte") {
@@ -94,7 +97,7 @@ let vue = Vue.createApp({
 
     function action_carte(code_revele) {
       alert("Mot de passe de l'ordinateur : " + code_revele);
-      event.target.remove();
+      suppression();
     };
 
     function action_pc(code_bloquant, id_bloque) {
