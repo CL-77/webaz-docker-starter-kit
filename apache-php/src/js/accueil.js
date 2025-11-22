@@ -62,11 +62,11 @@ let vue = Vue.createApp({
         tabJSON.forEach(function(obj){
           if (obj.depart == 't') {
               if (obj.nom == "carte") {
-                let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) ,alt:obj.nom}).addTo(map).on('click', function() {action_carte(obj.code)} );
+                let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) ,alt:obj.nom}).addTo(map).on('click', function() {action_carte(obj.code_revele)} );
               } else if (obj.nom == "pc") {
-                let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {action_pc()} );
+                let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {action_pc(obj.code_bloquant, obj.id_bloque)} );
               } else if (obj.nom == "porte") {
-                let porte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {action_porte(obj.indice)} );
+                let porte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {action_porte(obj.indice, obj.id_bloque)} );
               } else {
                 let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {suppression()} );
               }
@@ -92,26 +92,30 @@ let vue = Vue.createApp({
         console.log(app.inventaire);
     };
 
-    function action_carte(code) {
-      alert("Mot de passe de l'ordinateur : " + code);
+    function action_carte(code_revele) {
+      alert("Mot de passe de l'ordinateur : " + code_revele);
       event.target.remove();
     };
 
-    function action_pc() {
+    function action_pc(code_bloquant, id_bloque) {
       let mdp = prompt("Veuillez saisir le mot de passe :");
-      if (mdp == '2425') { // à mettre à jour en important depuis la BDD
+      if (mdp == code_bloquant) {
         alert("Mot de passe correct.");
         event.target.remove();
-        get_objets('9');
+        get_objets(id_bloque);
       } else {
         alert("Mot de passe incorrect.");
       }
     };
 
-    function action_porte(indice) {
-      if(app.selection=="cle"){suppression()}
-      else{alert(indice)};
-    }
+    function action_porte(indice, id_bloque) {
+      if(app.selection=="cle"){
+            event.target.remove();
+            get_objets(id_bloque);
+      } else{
+            alert(indice);
+      }
+    };
  
    /* 
    console.log('Initialisation');
