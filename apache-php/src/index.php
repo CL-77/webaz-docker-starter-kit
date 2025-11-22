@@ -5,7 +5,30 @@ declare(strict_types=1);
 require_once 'flight/Flight.php';
 
 Flight::route('/', function() {
-    Flight::render('accueil');
+    $host = 'db';
+    $port = 5432;
+    $dbname = 'mydb';
+    $user = 'postgres';
+    $pass = 'postgres';
+
+    // Connexion BDD
+    $link = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
+
+    $sql = "SELECT classement, nom, score FROM score WHERE classement <= 10";
+    $query = pg_query($link, $sql);
+    $results = pg_fetch_all($query);
+    $tab_scores = [];
+    foreach ($results as $key => $elem) {
+        $tab_scores[] = $elem;
+    }
+
+    Flight::render('accueil', ["tab_scores" => $tab_scores]);
+
+});
+
+
+Flight::route('/jeu', function () {
+    Flight::render('jeu');
 });
 
 
@@ -43,18 +66,12 @@ Flight::route('/scores', function () {
     // Connexion BDD
     $link = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
 
-    if ( ! isset($_GET['insert']) ) {
-        // Affichage des 10 meilleurs scores
-        $sql = "SELECT * FROM score WHERE classement <= 10";
-        $query = pg_query($link, $sql);
-    } else {
-        // Injection par la route /scores?insert=INSERT INTO...
+    if (isset($_GET['insert']) ) {
         $insert = $_GET['insert'];
         $query = pg_query($link, "$insert");
+        $results = pg_fetch_all($query);
+        Flight::json($results);
     }
- 
-    $results = pg_fetch_all($query);
-    Flight::json($results);
 });
 
 

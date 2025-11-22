@@ -1,0 +1,40 @@
+#application {
+    display: flex;
+    height:10vh;
+}
+
+#cheat {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+}
+
+#cheat p {
+    padding-left: 10px;
+}
+
+#cheat button {
+    width: 200px;
+}
+
+#map {
+    height: 90vh;
+}
+
+ul{
+    display:inline-flex;
+    list-style-type: none;
+}
+img{
+    height:50px;
+    width:50px;
+}
+
+.selectionnee{
+    background-color: yellow;
+}
+
+.non_selectionnee{
+    background-color : grey;
+}
