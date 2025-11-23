@@ -14,7 +14,7 @@ Flight::route('/', function() {
     // Connexion BDD
     $link = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
 
-    $sql = "SELECT classement, nom, score FROM score WHERE classement <= 10";
+    $sql = "SELECT classement, nom, score FROM score";
     $query = pg_query($link, $sql);
     $results = pg_fetch_all($query);
     $tab_scores = [];
@@ -70,8 +70,18 @@ Flight::route('/scores', function () {
         $insert = $_GET['insert'];
         $query = pg_query($link, "$insert");
         $results = pg_fetch_all($query);
-        Flight::json($results);
     }
+
+    $sql = "SELECT classement, nom, score FROM score";
+    $query = pg_query($link, $sql);
+    $results = pg_fetch_all($query);
+    $tab_scores = [];
+    foreach ($results as $key => $elem) {
+        $tab_scores[] = $elem;
+    }
+
+    Flight::render('accueil', ["tab_scores" => $tab_scores]);
+
 });
 
 
