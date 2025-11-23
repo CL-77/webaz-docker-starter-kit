@@ -9,6 +9,22 @@ let map = L.map('map', {
     ],
 })
 
+let zoom15 = L.layerGroup([],{
+  minzoom:15,
+  maxzoom:19,
+})
+
+let zoom13 = L.layerGroup([],{
+  minzoom:13,
+  maxzoom:19,
+})
+
+map.addLayer(zoom15);
+map.addLayer(zoom13);
+
+let zooms ={15:zoom15,13:zoom13}
+
+
 
 let heatmap = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
     layers: 'heatmap:objet',
@@ -66,13 +82,13 @@ let vue = Vue.createApp({
         tabJSON.forEach(function(obj){
           if (obj.depart == 't') {
               if (obj.nom == "carte") {
-                let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) ,alt:obj.nom+obj.code_revele}).addTo(map).on('click', function() {action_carte(obj.code_revele)} );
+                let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) ,alt:obj.nom+obj.code_revele}).addTo(zooms[obj.min_zoom_visible]).on('click', function() {action_carte(obj.code_revele)} );
               } else if (obj.nom == "pc") {
-                let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {action_pc(obj.code_bloquant, obj.id_bloque)} );
+                let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {action_pc(obj.code_bloquant, obj.id_bloque)} );
               } else if (obj.nom == "porte") {
-                let porte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {action_porte(obj.indice, obj.id_bloque)} );
+                let porte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {action_porte(obj.indice, obj.id_bloque)} );
               } else {
-                let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {suppression()} );
+                let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {suppression()} );
               }
             }
         })
@@ -82,7 +98,7 @@ let vue = Vue.createApp({
     .then(reponseHTTP => reponseHTTP.json())
     .then(tabJSON => {
         tabJSON.forEach(function(obj){
-          let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(map).on('click', function() {suppression()} );
+          let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {suppression()} );
         });
       })
     }
@@ -123,6 +139,25 @@ let vue = Vue.createApp({
             alert(indice);
       }
     };
+
+    map.on('zoom',function(){niveau_zoom()})
+    function niveau_zoom(){
+      console.log("zoom")
+      z = map.getZoom()
+      if (z<13){
+        map.removeLayer(zoom13)
+      }
+      else{
+        map.addLayer(zoom13)
+      }
+      if (z<15){
+        map.removeLayer(zoom15)
+      }
+      else{
+        map.addLayer(zoom15)
+      }
+    }
+
 
     function fin_partie(){
       let tps_fin=Date.now();
