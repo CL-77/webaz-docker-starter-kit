@@ -133,6 +133,7 @@ let vue = Vue.createApp({
       console.log(tps_jeu)
       console.log(score)
       let msg_fin = prompt("Votre score est : " + score +"\nEntrez votre nom")
+      window.location.href="http://localhost:1234"
     }
  
    /* 
