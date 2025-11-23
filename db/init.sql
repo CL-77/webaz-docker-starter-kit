@@ -28,8 +28,7 @@ CREATE TABLE icone (
 CREATE TABLE score (
     id integer GENERATED ALWAYS AS IDENTITY,
     nom character varying,
-    score integer,
-    classement integer
+    score integer
 );
 
 -- Insertion des données

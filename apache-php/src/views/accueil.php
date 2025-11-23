@@ -15,8 +15,10 @@
         <table>
             <tr><th>Rang</th><th>Nom</th><th>Score</th></tr>
             <?php
-                foreach ($tab_scores as $ligne) {
+                for ($i = 1; $i < sizeof($tab_scores)+1; $i++) {
                     echo "<tr>";
+                    $ligne = $tab_scores[$i-1];
+                    echo "<td>" . $i . "</td>";
                     foreach ($ligne as $key => $elem) {
                         echo "<td>" . $elem . "</td>";
                     }
@@ -25,6 +27,6 @@
             ?>
         </table> 
     </div>
-    <a href="http://localhost:1234/jeu">Jouer</a> 
+    <a href="http://localhost:1234/jeu">Jouer</a>
 </body>
 </html>
