@@ -25,6 +25,7 @@ let vue = Vue.createApp({
       inventaire: [],
       cheat_mode: false,
       selection: "",
+      tps_debut:Date.now(),
     }
     
   },
@@ -93,6 +94,9 @@ let vue = Vue.createApp({
         app.inventaire.push({alt:event.target.alt,src:event.target.src});
         event.target.remove();
         console.log(app.inventaire);
+        if (app.inventaire.length == 8){
+          fin_partie()
+        }
     };
 
     function action_carte(code_revele) {
@@ -119,6 +123,17 @@ let vue = Vue.createApp({
             alert(indice);
       }
     };
+
+    function fin_partie(){
+      let tps_fin=Date.now();
+      tps_jeu=tps_fin-app.tps_debut;
+      let score = 120-tps_jeu/1000
+      console.log(app.tps_debut)
+      console.log(tps_fin)
+      console.log(tps_jeu)
+      console.log(score)
+      let msg_fin = prompt("Votre score est : " + score +"\nEntrez votre nom")
+    }
  
    /* 
    console.log('Initialisation');
