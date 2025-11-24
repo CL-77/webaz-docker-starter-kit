@@ -9,22 +9,7 @@ let map = L.map('map', {
     ],
 })
 
-let zoom15 = L.layerGroup([],{
-  minzoom:15,
-  maxzoom:19,
-})
-
-let zoom13 = L.layerGroup([],{
-  minzoom:13,
-  maxzoom:19,
-})
-
-map.addLayer(zoom15);
-map.addLayer(zoom13);
-
-let zooms ={15:zoom15,13:zoom13}
-
-
+let zooms={15:L.layerGroup().addTo(map),13:L.layerGroup().addTo(map)}
 
 let heatmap = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
     layers: 'heatmap:objet',
@@ -42,6 +27,8 @@ let vue = Vue.createApp({
       cheat_mode: false,
       selection: "",
       tps_debut:Date.now(),
+      marqueurs:{},
+      
     }
     
   },
@@ -80,13 +67,13 @@ let vue = Vue.createApp({
         tabJSON.forEach(function(obj){
           if (obj.depart == 't') {
               if (obj.nom == "carte") {
-                let carte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) ,alt:obj.nom+obj.code_revele}).addTo(zooms[obj.min_zoom_visible]).on('click', function() {action_carte(obj.code_revele)} );
+                app.marqueurs[obj.nom+obj.code_revele]= L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}) ,alt:obj.nom+obj.code_revele}).addTo(zooms[obj.min_zoom_visible]).on('click', function() {action_carte(obj.code_revele,obj.min_zoom_visible)} );
               } else if (obj.nom == "pc") {
-                let pc = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {action_pc(obj.code_bloquant, obj.id_bloque)} );
+                app.marqueurs[obj.nom]= L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {action_pc(obj.code_bloquant, obj.id_bloque,obj.min_zoom_visible)} );
               } else if (obj.nom == "porte") {
-                let porte = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {action_porte(obj.indice, obj.id_bloque)} );
+                app.marqueurs[obj.nom]= L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {action_porte(obj.indice, obj.id_bloque,obj.min_zoom_visible)} );
               } else {
-                let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {suppression()} );
+                app.marqueurs[obj.nom]= L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {suppression(obj.min_zoom_visible)} );
               }
             }
         })
@@ -96,39 +83,39 @@ let vue = Vue.createApp({
     .then(reponseHTTP => reponseHTTP.json())
     .then(tabJSON => {
         tabJSON.forEach(function(obj){
-          let objet = L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {suppression()} );
+          app.marqueurs[obj.nom]= L.marker([obj.lat, obj.lon], { icon: L.icon({iconUrl: obj.url, iconSize: [obj.taille_x, obj.taille_y]}),alt:obj.nom }).addTo(zooms[obj.min_zoom_visible]).on('click', function() {suppression(obj.min_zoom_visible)} );
         });
       })
     }
   };
 
-    function suppression(){
+    function suppression(zoom){
         app.inventaire.push({alt:event.target.alt,src:event.target.src});
-        event.target.remove();
+        app.marqueurs[event.target.alt].removeFrom(zooms[zoom]);
         if (app.inventaire.length == 8){
           fin_partie()
         }
     };
 
-    function action_carte(code_revele) {
+    function action_carte(code_revele,zoom) {
       alert("Mot de passe de l'ordinateur : " + code_revele);
-      suppression();
+      suppression(zoom);
     };
 
-    function action_pc(code_bloquant, id_bloque) {
+    function action_pc(code_bloquant, id_bloque,zoom) {
       let mdp = prompt("Veuillez saisir le mot de passe :");
       if (mdp == code_bloquant) {
         alert("Mot de passe correct.");
-        event.target.remove();
+        app.marqueurs[event.target.alt].removeFrom(zooms[zoom]);
         get_objets(id_bloque);
       } else {
         alert("Mot de passe incorrect.");
       }
     };
 
-    function action_porte(indice, id_bloque) {
+    function action_porte(indice, id_bloque,zoom) {
       if(app.selection=="cle"){
-            event.target.remove();
+            app.marqueurs[event.target.alt].removeFrom(zooms[zoom]);
             get_objets(id_bloque);
       } else{
             alert(indice);
@@ -137,19 +124,18 @@ let vue = Vue.createApp({
 
     map.on('zoom',function(){niveau_zoom()})
     function niveau_zoom(){
-      console.log("zoom")
       z = map.getZoom()
       if (z<13){
-        map.removeLayer(zoom13)
+        map.removeLayer(zooms[13])
       }
       else{
-        map.addLayer(zoom13)
+        map.addLayer(zooms[13])
       }
       if (z<15){
-        map.removeLayer(zoom15)
+        map.removeLayer(zooms[15])
       }
       else{
-        map.addLayer(zoom15)
+        map.addLayer(zooms[15])
       }
     }
 
