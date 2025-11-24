@@ -60,8 +60,6 @@ let vue = Vue.createApp({
     },
 
     func_selection(objet) {
-      console.log("Selection en cours");
-      console.log(objet);
       this.selection=objet;
       if (objet.substr(0,5)=="carte"){
         alert("Mot de passe de l'ordinateur : " + objet.substr(5));
@@ -105,11 +103,8 @@ let vue = Vue.createApp({
   };
 
     function suppression(){
-        console.log(event.target);
-        console.log({alt:event.target.alt,src:event.target.src});
         app.inventaire.push({alt:event.target.alt,src:event.target.src});
         event.target.remove();
-        console.log(app.inventaire);
         if (app.inventaire.length == 8){
           fin_partie()
         }
@@ -161,43 +156,11 @@ let vue = Vue.createApp({
 
     function fin_partie(){
       let tps_fin=Date.now();
-      tps_jeu=tps_fin-app.tps_debut;
-      let score = 120-tps_jeu/1000
-      console.log(app.tps_debut)
-      console.log(tps_fin)
-      console.log(tps_jeu)
-      console.log(score)
+      let tps_jeu=tps_fin-app.tps_debut;
+      let score = Math.round(120-tps_jeu/1000);
       let msg_fin = prompt("Votre score est : " + score +"\nEntrez votre nom")
       window.location.href="http://localhost:1234/scores?insert=INSERT INTO score (nom, score) VALUES ('" + msg_fin + "', " + score + ");";
     }
- 
-   /* 
-   console.log('Initialisation');
-   console.log(app.inventaire);
-   let icontest1 = L.icon({
-    iconUrl: 'img/camera.png',
-    iconSize: [38, 95],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-    //shadowUrl: 'my-icon-shadow.png',
-    //shadowSize: [68, 95],
-    //shadowAnchor: [22, 94]
-   });
-   let icontest2 = L.icon({
-    iconUrl: 'img/cle.png',
-    iconSize: [38, 95],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-    //shadowUrl: 'my-icon-shadow.png',
-    //shadowSize: [68, 95],
-    //shadowAnchor: [22, 94]
-   });
-   let test1 = L.marker([43.9625, 5.7740],{icon: icontest1,alt:'test1'});
-   let test2 = L.marker([43.9625, 5.6740],{icon: icontest2,alt:'test2'});
-   test1.addTo(map).on('click',function(){ suppression()});
-   test2.addTo(map).on('click',function(){ suppression()});
-   console.log(map)
-   */
 
    get_objets('start');
 
