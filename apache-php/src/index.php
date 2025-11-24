@@ -72,15 +72,7 @@ Flight::route('/scores', function () {
         $results = pg_fetch_all($query);
     }
 
-    $sql = "SELECT nom, score FROM score ORDER BY score DESC LIMIT 10;";
-    $query = pg_query($link, $sql);
-    $results = pg_fetch_all($query);
-    $tab_scores = [];
-    foreach ($results as $key => $elem) {
-        $tab_scores[] = $elem;
-    }
-
-    Flight::render('accueil', ["tab_scores" => $tab_scores]);
+    Flight::redirect('/');
 
 });
 
