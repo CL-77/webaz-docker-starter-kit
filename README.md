@@ -83,8 +83,25 @@ docker compose exec -t db pg_dump --inserts -U postgres -d mydb > "./db/backup.s
 - un dossier `./geoserver-workspaces` est créé pour les données des workspaces GeoServer
 - un fichier `./db/backup.sql` est créé pour un dump de la BDD
 
-# Pour importer la carte de chaleur
+## Construction de la carte de chaleur
 
-Faire docker compose cp  ./geoserver-workspaces/. geoserver:/opt/geoserver/data_dir/workspaces/ dans l'arborescence du projet
-
-Puis aller dans le geoserver, état du service puis clicker sur recherger dans configuration et catalogue en bas
+Aller dans GeoServer, dans le menu Espaces de travail et en créer un nouveau baptisé `heatmap` avec URI `heatmap`.\
+Cocher "Espace de travail par défaut".\
+Ouvrir l'espace de travail tout juste créé, dans "Services" cocher "WMS", dans "Configuration" cocher "Activer", puis sauvegarder.\
+\
+Ouvrir le menu Entrepôts et en créer un nouveau, dans "Source de données Vecteur" choisir PostGIS.\
+Laisser l'espace de travail par défaut `heatmap`, donner un nom `heatmap_store`, laisser cocher "Activé".\
+Renseigner les paramètres de connexion indiqués précédemment\
+Laisser les autres paramètres par défaut, puis sauvegarder.\
+\
+Une page "Nouvelle couche" s'ouvre automatiquement.\
+Choisir de publier la couche `objet`.\
+Descendre dans "Emprises", calculer l'emprise native basée sur les données, et l'emprise géographique à partir des emprises natives, puis sauvegarder.\
+\
+Ouvrir le menu Styles et en créer un nouveau, baptisé `heatmap_style`, et choisir l'espace de travail `heatmap`.\
+Copier dans l'interface de code le contenu du fichier `./style/heatmap_style.xml`, puis sauvegarder.\
+\
+Retourner dans le menu Couches, choisir la couche `objet`, et dans l'onglet "Publication" descendre dans "Configuration du WMS / Paramètres de couche".\
+Choisir `heatmap:heatmap_style` comme style par défaut, puis sauvegarder.\
+\
+La carte de chaleur apparaît désormais dans le jeu, en cliquant sur le bouton "Activer cheat mode".
