@@ -15,16 +15,16 @@ Il y a au total 10 objets répartis sur la carte :
 
 | Objet | Latitude | Longitude | Niveau de zoom | Chargé au démarrage |
 |:-----:|:-----:|:-----:|:-----:|:-----:|
-| Tachéomètre | 5.774149 | 43.962906 | | Oui |
-| Tachéomètre | 5.908676 | 43.984754 | | Oui |
-| Tachéomètre | 5.791172 | 43.961542 | | Oui |
-| Récepteur GNSS | 5.772059 | 43.978721 | | Oui |
-| Mire de nivellement | 5.909462 | 43.983155 | | Oui |
-| Appareil photo | 5.794683 | 43.933778 | | Non |
-| Carte IGN | 5.782106 | 44.112433 | | Oui |
-| PC | 5.773961 | 43.962488 | | Oui |
-| Clé | 5.782126 | 43.957144 | | Non |
-| Porte | 5.794508 | 43.933737 | | Oui |
+| Tachéomètre | 5.774149 | 43.962906 | 15 | Oui |
+| Tachéomètre | 5.908676 | 43.984754 | 15 | Oui |
+| Tachéomètre | 5.791172 | 43.961542 | 15 | Oui |
+| Récepteur GNSS | 5.772059 | 43.978721 | 13 | Oui |
+| Mire de nivellement | 5.909462 | 43.983155 | 13 | Oui |
+| Appareil photo | 5.794683 | 43.933778 | 15 | Non |
+| Carte IGN | 5.782106 | 44.112433 | 13 | Oui |
+| PC | 5.773961 | 43.962488 | 15 | Oui |
+| Clé | 5.782126 | 43.957144 | 15 | Non |
+| Porte | 5.794508 | 43.933737 | 13 | Oui |
 
 ## Solution du jeu
 
@@ -42,4 +42,5 @@ Les autres objets sont à récupérer dans un ordre précis.
 * L'appareil photo apparaît, et on peut récupérer ce dernier objet.
 
 Une fois les 8 objets stockés dans l'inventaire, la partie s'arrête et une fenêtre indique notre score, calculé en fonction du temps écoulé depuis le début du jeu.\
+
 On saisit notre nom, puis notre résultat apparaît dans le hall of fame s'il s'agit de l'un des 10 meilleurs scores.
