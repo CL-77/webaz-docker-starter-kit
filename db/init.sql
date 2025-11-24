@@ -36,12 +36,12 @@ INSERT INTO objet (nom, geom, min_zoom_visible, depart, lat, lon, code_bloquant,
     ('tacheometre1', ST_SetSRID(ST_MakePoint(5.774149, 43.962906), 4326), 15, true, 43.962906, 5.774149, NULL, NULL, NULL, 1, NULL),
     ('tacheometre2', ST_SetSRID(ST_MakePoint(5.908676, 43.984754), 4326), 15, true, 43.984754, 5.908676, NULL, NULL, NULL, 1, NULL),
     ('tacheometre3', ST_SetSRID(ST_MakePoint(5.791172, 43.961542), 4326), 15, true, 43.961542, 5.791172, NULL, NULL, NULL, 1, NULL),
-    ('gnss', ST_SetSRID(ST_MakePoint(5.772059, 43.978721), 4326), 13, true, 43.978721, 5.772059, NULL, NULL, NULL, 2, NULL),
+    ('gnss', ST_SetSRID(ST_MakePoint(5.772059, 43.978721), 4326), 15, true, 43.978721, 5.772059, NULL, NULL, NULL, 2, NULL),
     ('mire', ST_SetSRID(ST_MakePoint(5.909462, 43.983155), 4326), 13, true, 43.983155, 5.909462, NULL, NULL, NULL, 3, NULL),
-    ('camera', ST_SetSRID(ST_MakePoint(5.794683, 43.933778), 4326), 15, false, 43.933778, 5.794683, NULL, NULL, NULL, 4, NULL),
-    ('carte', ST_SetSRID(ST_MakePoint(5.782106, 44.112433), 4326), 13, true, 44.112433, 5.782106, NULL, 2425, NULL, 5, NULL),
-    ('pc', ST_SetSRID(ST_MakePoint(5.773961, 43.962488), 4326), 15, true, 43.962488, 5.773961, 2425, NULL, NULL, 6, 9),
-    ('cle', ST_SetSRID(ST_MakePoint(5.782126, 43.957144), 4326), 15, false, 43.957144, 5.782126, NULL, NULL, NULL, 7, 10),
+    ('camera', ST_SetSRID(ST_MakePoint(5.794683, 43.933778), 4326), 13, false, 43.933778, 5.794683, NULL, NULL, NULL, 4, NULL),
+    ('carte', ST_SetSRID(ST_MakePoint(5.782106, 44.112433), 4326), 15, true, 44.112433, 5.782106, NULL, 2425, NULL, 5, NULL),
+    ('pc', ST_SetSRID(ST_MakePoint(5.773961, 43.962488), 4326), 13, true, 43.962488, 5.773961, 2425, NULL, NULL, 6, 9),
+    ('cle', ST_SetSRID(ST_MakePoint(5.782126, 43.957144), 4326), 13, false, 43.957144, 5.782126, NULL, NULL, NULL, 7, 10),
     ('porte', ST_SetSRID(ST_MakePoint(5.794508, 43.933737), 4326), 13, true, 43.933737, 5.794508, NULL, NULL, 'Porte fermée à clé !', 8, 6)
 ;
 
